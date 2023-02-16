@@ -6,7 +6,8 @@ export const AddTodoItem = ({ createData, setSearchValue }) => {
 	const [title, setTitle] = useState('');
 	const [description, setDescription] = useState('');
 
-	const buttonForCreateData = () => {
+	const buttonForCreateData = (e) => {
+		e.preventDefault();
 		let newData = {
 			title: title,
 			description: description,
@@ -18,7 +19,7 @@ export const AddTodoItem = ({ createData, setSearchValue }) => {
 	};
 
 	return (
-		<div className="Add-Todo-Item general-container">
+		<form className="Add-Todo-Item general-container" onSubmit={buttonForCreateData}>
 			<h1>ToDo Fapro || Agregar</h1>
 			<div className="group">
 				<input
@@ -40,10 +41,8 @@ export const AddTodoItem = ({ createData, setSearchValue }) => {
 				/>
 				<label>Descripción</label>
 			</div>
-			<button onClick={buttonForCreateData} className="custom-btn btn-1">
-				Agregar ToDo
-			</button>
+			<button className="custom-btn btn-1">Agregar ToDo</button>
 			<SvgFapro className="fapro-svg" />
-		</div>
+		</form>
 	);
 };

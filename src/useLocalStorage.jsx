@@ -9,6 +9,7 @@ export const useLocalStorage = () => {
 	const [empty, setEmpty] = React.useState(false);
 	const [item, setItem] = React.useState(initialValue);
 	const [searchValue, setSearchValue] = React.useState('');
+	const [repeated, setRepeated] = React.useState(false);
 
 	React.useEffect(() => {
 		setTimeout(() => {
@@ -76,26 +77,40 @@ export const useLocalStorage = () => {
 	};
 
 	const createData = (newVlue) => {
-		const date = new Date();
-		const [month, day, year] = [date.getMonth(), date.getDate(), date.getFullYear()];
-		const [hour, minutes] = [date.getHours(), date.getMinutes()];
-		const todoNew = [...item];
-		const nuevoDic = {
-			...newVlue,
-			dateCreation:
-				hour +
-				':' +
-				minutes +
-				'		' +
-				month.toString() +
-				'/' +
-				day.toString() +
-				'/' +
-				year.toString(),
-		};
-		todoNew.push(nuevoDic);
+		const existValidation = item.filter((el) => {
+			return el.title === newVlue.title;
+		});
 
-		saveItem(todoNew);
+		if (!!existValidation.length) {
+			setRepeated(true);
+			console.log(repeated);
+		} else {
+			const date = new Date();
+			const [month, day, year] = [date.getMonth(), date.getDate(), date.getFullYear()];
+			const [hour, minutes] = [date.getHours(), date.getMinutes()];
+			const todoNew = [...item];
+			const nuevoDic = {
+				...newVlue,
+				dateCreation:
+					hour +
+					':' +
+					minutes +
+					'		' +
+					month.toString() +
+					'/' +
+					day.toString() +
+					'/' +
+					year.toString(),
+			};
+			todoNew.push(nuevoDic);
+
+			saveItem(todoNew);
+		}
+	};
+
+	const changeValueRepeat = () => {
+		console.log('change repeat');
+		setRepeated(!repeated);
 	};
 
 	const updateData = (dataObj) => {
@@ -115,10 +130,12 @@ export const useLocalStorage = () => {
 		empty,
 		searchValue,
 		searchedTodos,
+		repeated,
 
 		deleteData,
 		createData,
 		setSearchValue,
 		updateData,
+		changeValueRepeat,
 	};
 };

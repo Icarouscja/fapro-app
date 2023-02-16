@@ -3,9 +3,10 @@ import './GeneralStyles.css';
 import { AddTodoItem } from './AddTodoItem';
 import { SearchItems } from './SearchItems';
 import { ListItems } from './ListItems';
-// import { useJsonServer } from './useJsonServer';
+//import { useJsonServer } from './useJsonServer';
 import { LoadingC } from './Loading';
 import { useLocalStorage } from './useLocalStorage';
+import { ModalForRepeat } from './ModalForRepeat';
 
 function App() {
 	const {
@@ -13,10 +14,13 @@ function App() {
 		loading,
 		searchValue,
 		error,
+		repeated,
+
 		updateData,
 		createData,
 		deleteData,
 		setSearchValue,
+		changeValueRepeat,
 	} = useLocalStorage();
 
 	return (
@@ -45,6 +49,7 @@ function App() {
 				) : (
 					<LoadingC />
 				)}
+				{repeated && <ModalForRepeat changeValueRepeat={changeValueRepeat} />}
 			</div>
 		</div>
 	);
